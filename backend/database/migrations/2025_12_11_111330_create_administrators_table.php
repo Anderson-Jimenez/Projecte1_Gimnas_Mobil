@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name',50);
             $table->string('dni',50);
             $table->string('password',50);
-            $table->enum('state', ['ACTIVE', 'DESACTIVATED'])->default('ACTIVE');
+            $table->enum('state', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->timestamps();
         });
     }

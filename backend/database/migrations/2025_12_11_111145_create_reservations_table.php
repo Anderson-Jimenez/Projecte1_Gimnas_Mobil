@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->enum('state', ['ACTIVE', 'DESACTIVATED'])->default('ACTIVE');
+            $table->enum('state', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->unsignedBigInteger('fk_id_user');
             $table->foreign('fk_id_user')->references('id')->on('usersGym')->onDelete('cascade');
             $table->unsignedBigInteger('fk_id_class');

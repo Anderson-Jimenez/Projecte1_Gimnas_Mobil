@@ -5,6 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('ping', function(Request $request){
     return response()->json([
-        'message' => 'Hola bon dia'
+        'message' => 'Estic al index, crec.'
     ]);
 });
