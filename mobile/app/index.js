@@ -15,9 +15,14 @@ export default function Index(){
 
     return (
         <LinearGradient
-        colors={["#4f46e5", "#6d28d9", "#8b5cf6"]}
+        colors={["#FE5D5D","#f97769","#fb923c"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
         style={styles.container}
         >
+            <View style={styles.card}>
+
+            </View>
             <View style={styles.card}>
                 <Text style={styles.title}>Això es una proba de estils estranya</Text>
                 <Text style={styles.message}>{message}</Text>
@@ -33,7 +38,7 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "rgba(255,255,255,0.2)",
+    backgroundColor: "white",
     padding: 25,
     borderRadius: 16,
     width: "80%",
@@ -42,15 +47,15 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 22,
+    fontSize: 14,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#374151",
     marginBottom: 10,
   },
 
   message: {
-    fontSize: 18,
-    color: "#fefefe",
+    fontSize: 12,
+    color: "#ADAEBC",
   },
 });
 
