@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Button, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function Index(){
@@ -14,22 +14,147 @@ export default function Index(){
     }, []);
 
     return (
-        <LinearGradient
-        colors={["#4f46e5", "#6d28d9", "#8b5cf6"]}
-        style={styles.container}
-        >
-            <View style={styles.card}>
-                <Text style={styles.title}>Això es una proba de estils estranya</Text>
-                <Text style={styles.message}>{message}</Text>
+            <View style={styles.mainContainer}>
+              <View style={styles.header}>
+                <View>
+                  <Text style={styles.subTitle}>Benvingut de nou,</Text>
+                  <Text style={styles.title}>Anderson Stiven</Text>
+                </View>
+              </View>
+              <View style={styles.main}>
+                <Pressable style={styles.redBtn}>
+                  <Text style={styles.redBtnText}>Veure les teves Reserves</Text>
+                </Pressable>
+                <View style={styles.container}>
+                  <Text style={styles.titleB}>La teva activitat</Text>
+                  <Text style={styles.messageRed}>Aquest Mes</Text>
+                  <View style={styles.grafh}>
+
+                  </View>
+                </View>
+                <View style={styles.container}>
+                  <Text style={styles.titleB}>Proxima Classe</Text>
+                  <Text style={styles.messageRed}>Veure properes classes</Text>
+                  <View style={styles.grafh}> </View>
+                </View>
+                <View style={styles.simpleContainer}>
+                  <Text style={styles.titleB}>Accions ràpides</Text>
+                  <View style={styles.container}>
+                    <Pressable style={styles.whiteActionBtn}>
+                      <Text style={styles.titleB}>Horaris</Text>
+                      <Text>Veure horaris</Text>
+                    </Pressable>
+                    <Pressable style={styles.redActionBtn}>
+                      <Text style={styles.titleB}>Reserva</Text>
+                      <Text>Reserva una classe</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.footer}>
+                <Text>Test</Text>
+              </View>
             </View>
-        </LinearGradient>
     );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  header: {
+    justifyContent: "space-between",
+    backgroundColor: "#1F2937",
+    paddingTop: "30px",
+    paddingBottom: "30px",
+    paddingLeft: "20px",
+    paddingRight: "20px",
+  },
+
+  footer: {
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
+    borderTopWidth: "1px",
+    borderTopColor: "#e4e4e4ff",
+    paddingTop: "30px",
+    paddingBottom: "30px",
+    paddingLeft: "20px",
+    paddingRight: "20px",
+  },
+
+  main: {
+    rowGap: "30px",
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: "40px",
+    paddingBottom: "40px",
+    paddingLeft: "25px",
+    paddingRight: "25px",
+  },
+
+  grafh: {
+    justifyContent: "center",
+    backgroundColor: "#FFF",
+    borderRadius: "15px",
+    alignItems: "center",
+    paddingTop: "30px",
+    paddingBottom: "30px",
+    width: "100%",
+  },
+
+  redBtn: {
+    justifyContent: "center",
+    backgroundColor: "#F87171",
+    borderRadius: "15px",
+    alignItems: "center",
+    paddingTop: "30px",
+    paddingBottom: "30px",
+    width: "100%",
+  },
+
+  whiteActionBtn: {
+    justifyContent: "center",
+    backgroundColor: "#F87171",
+    borderRadius: "15px",
+    alignItems: "center",
+    paddingTop: "30px",
+    paddingBottom: "30px",
+    width: "48%",
+  },
+  redActionBtn: {
+    justifyContent: "center",
+    backgroundColor: "#FFF",
+    borderRadius: "15px",
+    alignItems: "center",
+    paddingTop: "30px",
+    paddingBottom: "30px",
+    width: "48%",
+  },
+
+  redBtnText: {
+    color: "#fff",
+    fontSize: "18px",
+    fontWeight: "700",
+    textTransform: "capitalize",
+  },
+
+  mainContainer: {
+    flex: 1,
+    width: "100%",
+  },
+
+  simpleContainer: {
+    width: "100%",
+  },
+
+  container: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    flex: 1,
+    width: "100%",
+    marginBottom: "30px",
+  },
+
+  containerLine: {
+    flex: 1,
+    insetInline: "right",
   },
 
   card: {
@@ -42,14 +167,31 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#fff",
-    marginBottom: 10,
+  },
+
+  titleB: {
+    paddingBottom: "10px",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000",
+  },
+
+  subTitle: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#a8a8a8ff",
+  },
+
+  messageRed: {
+    fontSize: 12,
+    color: "#FE5D5D",
   },
 
   message: {
-    fontSize: 18,
+    fontSize: 14,
     color: "#fefefe",
   },
 });
