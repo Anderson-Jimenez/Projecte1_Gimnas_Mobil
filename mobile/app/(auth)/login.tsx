@@ -18,8 +18,8 @@ export default function Login() {
       style={styles.container}
     >
       <View style={styles.content}>
-        <Text style={styles.welcomeText}>Welcome Back</Text>
-        <Text style={styles.subtitle}>Sign in to continue your journey</Text>
+        <Text style={styles.welcomeText}>Benvingut de nou!</Text>
+        <Text style={styles.subtitle}>Inicia sessió</Text>
         
         <View style={styles.card}>
           {/* Email Input */}
@@ -27,31 +27,20 @@ export default function Login() {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              placeholder="Tu@email.com"
+              placeholder="Introdueix el teu correu electrònic"
               placeholderTextColor="#9CA3AF"
             />
           </View>
           
           {/* Password Input */}
-          <Text style={styles.inputLabel}>Password</Text>
+          <Text style={styles.inputLabel}>Contrasenya</Text>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              placeholder="Enter your password"
+              placeholder="Introdueix la teva contrasenya"
               placeholderTextColor="#9CA3AF"
               secureTextEntry={true}
             />
-          </View>
-          
-          {/* Remember me & Forgot password */}
-          <View style={styles.row}>
-            <View style={styles.rememberContainer}>
-              <View style={styles.checkbox} />
-              <Text style={styles.rememberText}>Remember me</Text>
-            </View>
-            <TouchableOpacity>
-              <Text style={styles.forgotText}>Forgot?</Text>
-            </TouchableOpacity>
           </View>
           
           {/* Sign In Button */}
@@ -59,32 +48,6 @@ export default function Login() {
             <Text style={styles.signInText}>Sign In</Text>
           </TouchableOpacity>
           
-          {/* Or continue with */}
-          <View style={styles.dividerContainer}>
-            <View style={styles.divider} />
-            <Text style={styles.orText}>Or continue with</Text>
-            <View style={styles.divider} />
-          </View>
-          
-          {/* Social Buttons */}
-          <View style={styles.socialContainer}>
-            <TouchableOpacity style={styles.socialButton}>
-              {/* Google Icon - Usando texto como placeholder */}
-              <Text style={styles.socialIcon}>G</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton}>
-              {/* Facebook Icon - Usando texto como placeholder */}
-              <Text style={styles.socialIcon}>f</Text>
-            </TouchableOpacity>
-          </View>
-          
-          {/* Sign Up Link */}
-          <View style={styles.signupContainer}>
-            <Text style={styles.signupText}>Don't have an account? </Text>
-            <TouchableOpacity>
-              <Text style={styles.signupLink}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     </LinearGradient>
@@ -177,6 +140,7 @@ const styles = StyleSheet.create({
   signInButton: {
     backgroundColor: "#FE5D5D",
     borderRadius: 8,
+    marginTop: 20,  
     paddingVertical: 12,
     alignItems: "center",
     marginBottom: 24,
