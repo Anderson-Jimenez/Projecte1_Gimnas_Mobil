@@ -45,7 +45,7 @@ export default function Timetable() {
     /*-----------*/
 
     useEffect(() => {
-        fetch("http://192.168.1.191:8000/api/allClasses")
+        fetch("http://192.168.1.20:8000/api/allClasses")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Error en la resposta de la API');
