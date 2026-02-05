@@ -62,5 +62,65 @@ export default StyleSheet.create({
         color: "#CBD5E1",
         fontSize: 12,
     },
+
+    reservaBtn: {
+        backgroundColor: '#ff6b6b', 
+        marginTop: 15,
+        padding: 7, 
+        borderRadius: 12, 
+        alignItems: 'center' 
+    },
+
+    reservaText: {
+        color: 'white',
+        fontWeight: 700,
+    },
   
+    dayText: {
+        color: "#000",
+        fontWeight: "700",
+        textTransform: "capitalize",
+        fontSize: 24,
+    },
+
+    dayView:{
+        flex: 1,
+        flexDirection: "row",
+        width: "90%",
+        margin: "auto",
+        justifyContent: "space-between",
+        marginVertical: 20,
+        alignItems: "center",
+    },
+
+    loadingView: {
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "auto",
+    },
+
+    loadingText: {
+        color: "#000",
+        fontSize: 24,
+    },
+
+    pickerWrapper: {
+        flex: 1,
+        flexDirection: "row",
+        width: "90%",
+        marginTop: 15,
+        justifyContent: "space-between", 
+        margin: "auto",
+    },
+
+    picker: {
+        height: 40, // Alçada còmoda per tocar amb el dit
+        color: '#000', // Text blanc per al dia seleccionat
+        width: '48%',
+        borderWidth: 0,
+        borderBottomWidth: 1,
+    },
+
+
+    
 });

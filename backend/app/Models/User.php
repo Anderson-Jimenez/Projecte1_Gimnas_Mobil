@@ -20,4 +20,8 @@ class User extends Model
         'address',
         'status'
     ];
+
+    public function reservations(){
+        return $this->hasMany(Reservation::class, 'fk_id_user');
+    }
 }

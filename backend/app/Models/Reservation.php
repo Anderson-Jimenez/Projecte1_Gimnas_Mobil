@@ -11,7 +11,7 @@ class Reservation extends Model
 
     
     public function user(){
-        return $this->belongsTo(UsersGym::class, 'fk_id_user');
+        return $this->belongsTo(User::class, 'fk_id_user');
     }
     
     public function class(){
