@@ -3,32 +3,38 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'string'],
-            'password' => ['required', 'string'],
+    {      
+        // Validar los datos
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
-        $user = User::where('email', $credentials['email'])->first();
+        // Buscar el usuario por email
+        $user = User::where('email', $request->email)->first();
 
-        // verificacio de si existeix un profesional amb el nom indicat i la contrasenya del mateix existeix
-        if ($user && Hash::check($credentials['password'], $user->password)) {
-
-           //session(['center_id' => $professional->center_id]);
-            Auth::login($professional);
-            return redirect()->route('dashboard');
+        // Verificar si el usuario existe y la contraseña es correcta
+        if (!$user || !password_verify($request->password, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Credenciales incorrectas'
+            ], 401);
         }
-        return back()->withErrors([
-            'login' => 'Email o contraseña incorrectos.',
-        ]);
-    }
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('login');
+
+        // Si todo está bien, retornar éxito
+        return response()->json([
+            'success' => true,
+            'message' => 'Login correcto',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email
+            ]
+        ], 200);
     }
 }
