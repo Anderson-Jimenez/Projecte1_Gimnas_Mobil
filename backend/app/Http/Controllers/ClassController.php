@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Classes;
+use App\Models\Instructor;
+
 
 class ClassController extends Controller
 {
@@ -12,7 +14,11 @@ class ClassController extends Controller
      */
     public function index()
     {
-        return response()->json(Classes::with('instructor')->withCount('reservations')->get());
+        return response()->json([
+            'classes' => Classes::with('instructor')->withCount('reservations')->get(),
+            'instructors' => Instructor::all(),
+            'classNames' => Classes::distinct()->pluck('name'),
+        ]);
     }
 
     /**

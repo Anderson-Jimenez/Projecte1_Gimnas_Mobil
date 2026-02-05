@@ -1,4 +1,5 @@
 import React, { useEffect, useState  } from 'react';
+import { Picker } from '@react-native-picker/picker';
 import { Text, View, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; // Si uses Expo, si no, react-native-vector-icons
 import { router } from "expo-router";
@@ -9,7 +10,12 @@ import Footer from "../../components/Footer";
 export default function Timetable() {
     
     const [classes, setClasses] = useState<any[]>([]);
-    
+    const [instructors, setInstructors] = useState<any[]>([]);
+    const [classNames, setClassNames] = useState<any[]>([]);
+
+    const [instructorSeleccionat, setInstructorSeleccionat] = useState(null);
+    const [nameSeleccionat, setNameSeleccionat] = useState(null);
+
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -48,7 +54,9 @@ export default function Timetable() {
             })
             .then((data) => {
                 console.log("Dades de l'API:", data);
-                setClasses(data);
+                setClasses(data.classes);
+                setInstructors(data.instructors);
+                setClassNames(data.classNames);
                 setLoading(false);
             })
             .catch((error) => {
@@ -64,18 +72,32 @@ export default function Timetable() {
             <SafeAreaView style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Header />
-                    <View>
-                        <Text>Carregant classes...</Text>
-                    </View>
+                        <View style={styles.loadingView}>
+                            <Text style={styles.loadingText}>Carregant classes...</Text>
+                        </View>
                 </ScrollView>
                 <Footer />
             </SafeAreaView>
         );
     }
 
-    const classesDelDia = classes.filter(clase => 
-        clase.date.toLowerCase() === days[daysN].toLowerCase()
-    );
+    const classesFiltrades = classes.filter(clase => {
+        // 1. Filtre per dia
+        const coincideixDia = clase.date.toLowerCase() === days[daysN].toLowerCase();
+        
+        // 2. Filtre per instructor
+        const coincideixInstructor = instructorSeleccionat 
+            ? clase.fk_id_instructor == instructorSeleccionat 
+            : true;
+
+        // 3. Filtre per nom de classe (NOU)
+        const coincideixNom = nameSeleccionat 
+            ? clase.name === nameSeleccionat 
+            : true;
+
+        // Només si es compleixen les TRES condicions
+        return coincideixDia && coincideixInstructor && coincideixNom;
+    });
 
     return (
         <SafeAreaView style={styles.container}>
@@ -87,11 +109,32 @@ export default function Timetable() {
                     <Text style={styles.dayText}>{days[daysN]}</Text>
                     <MaterialCommunityIcons name="arrow-right" size={32} color="#000" onPress={anarEndavant}/>
                 </View>
-                
-                
+                <View style={styles.pickerWrapper}>
+                    <Picker style={styles.picker}
+                    selectedValue={instructorSeleccionat}
+                    onValueChange={(itemValue) => setInstructorSeleccionat(itemValue)}
+                    >
+                        <Picker.Item label=""/>
+                        {instructors.map((instructor)=>(
+                            <Picker.Item label={instructor.name+" "+ instructor.surnames} value={instructor.id} />
+                        ))}
+                        
+                    </Picker>
 
-                {classesDelDia.map((clase) => (
-                    <View style={styles.card}>
+                    <Picker style={styles.picker}
+                    selectedValue={nameSeleccionat}
+                    onValueChange={(itemValue) => setNameSeleccionat(itemValue)}
+                    >
+                        <Picker.Item label=""/>
+                        {classNames.map((name)=>(
+                            <Picker.Item label={name} value={name} />
+                        ))}
+                        
+                    </Picker>
+                </View>
+
+                {classesFiltrades.map((clase) => (
+                    <View style={styles.card} key={clase.id}>
                         {/* Header */}
                         <View style={styles.header}>
                             <Text style={styles.title}>{clase.name}</Text>
