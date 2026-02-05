@@ -62,5 +62,34 @@ export default StyleSheet.create({
         color: "#CBD5E1",
         fontSize: 12,
     },
+
+    reservaBtn: {
+        backgroundColor: '#ff6b6b', 
+        marginTop: 15,
+        padding: 7, 
+        borderRadius: 12, 
+        alignItems: 'center' 
+    },
+
+    reservaText: {
+        color: 'white',
+        fontWeight: 700,
+    },
   
+    dayText: {
+        color: "#000",
+        fontWeight: "700",
+        textTransform: "capitalize",
+        fontSize: 24,
+    },
+
+    dayView:{
+        flex: 1,
+        flexDirection: "row",
+        width: "90%",
+        margin: "auto",
+        justifyContent: "space-between",
+        marginVertical: 20,
+        alignItems: "center",
+    },
 });

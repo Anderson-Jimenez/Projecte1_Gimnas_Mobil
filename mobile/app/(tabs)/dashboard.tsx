@@ -15,7 +15,7 @@ export default function GymDashboard() {
         <Header/>
 
         {/* BUTTON: VEURE RESERVES */}
-        <TouchableOpacity style={Styles.reservesBtn}>
+        <TouchableOpacity style={Styles.reservesBtn} onPress={() => router.push("/reservations")}>
           <View style={Styles.iconContainer}>
             <MaterialCommunityIcons name="calendar-month" size={24} color="#ff6b6b" />
           </View>
@@ -25,7 +25,6 @@ export default function GymDashboard() {
         {/* GRÀFIC (Placeholder) */}
         <View style={Styles.sectionHeader}>
           <Text style={Styles.sectionTitle}>La Teva Activitat</Text>
-          <Text style={Styles.sectionLink}>Aquest mes</Text>
         </View>
         <View style={Styles.chartPlaceholder}>
           {/* Aquí aniria un component com 'react-native-wagmi-charts' o 'react-native-chart-kit' */}
@@ -35,7 +34,6 @@ export default function GymDashboard() {
         {/* PROXIMA CLASSE CARD */}
         <View style={Styles.sectionHeader}>
           <Text style={Styles.sectionTitle}>Proxima Classe</Text>
-          <Text style={Styles.sectionLink}>Veure properes classes</Text>
         </View>
 
         <View style={Styles.classCard}>

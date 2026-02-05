@@ -14,4 +14,7 @@ class Classes extends Model
         return $this->belongsTo(Instructor::class, 'fk_id_instructor');
     }
     
+    public function reservations(){
+        return $this->hasMany(Reservation::class, 'fk_id_class');
+    }
 }
