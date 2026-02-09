@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Classes extends Model
 {
     protected $table = "classes";
-    protected $fillable = ['name','date','start_time','end_time','capacity','fk_id_instructor'];
+    protected $fillable = ['name','date','start_time','end_time','capacity','instructor_id'];
 
     
     public function instructor(){
-        return $this->belongsTo(Instructor::class, 'fk_id_instructor');
+        return $this->belongsTo(Instructor::class, 'instructor_id');
     }
     
     public function reservations(){
-        return $this->hasMany(Reservation::class, 'fk_id_class');
+        return $this->hasMany(Reservation::class, 'class_id');
     }
 }

@@ -10,6 +10,6 @@ class Instructor extends Model
     protected $fillable = ['surnames','name','dni','password','email','phone','address','status'];
 
     public function classes(){
-        return $this->hasMany(Classes::class, 'fk_id_instructor');
+        return $this->hasMany(Classes::class, 'instructor_id');
     }
 }

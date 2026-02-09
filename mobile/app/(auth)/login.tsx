@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Text, View, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -43,9 +44,11 @@ export default function Login() {
       // Verificar si el login fue exitoso
       if (data.success === true) {
         console.log("Login exitoso:", data.user);
-        
-         setLoading(false);
-        // Redirigir al dashboard
+        //guarda token
+        await AsyncStorage.setItem("token", data.token);
+        setLoading(false);
+
+        // Redireccion al dashboard
         router.replace("/dashboard");
       } else {
         setError(data.message || "Credenciales incorrectas");
