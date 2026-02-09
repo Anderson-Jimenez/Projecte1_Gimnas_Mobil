@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('administrators', function (Blueprint $table) {
             $table->id();
-            $table->string('surnames',50);
-            $table->string('name',50);
-            $table->string('dni',50);
-            $table->string('password',50);
+            $table->string('surnames');
+            $table->string('name');
+            $table->string('dni',9);
+            $table->string('password');
             $table->enum('state', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->timestamps();
         });

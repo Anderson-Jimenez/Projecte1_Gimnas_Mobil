@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
-            $table->string('surnames',50);
-            $table->string('name',15);
-            $table->string('dni',50);
-            $table->string('password',50);
-            $table->string('email',50);
-            $table->string('phone',50);
-            $table->string('address',50);
-            $table->enum('state', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
+            $table->string('surnames');
+            $table->string('name');
+            $table->string('dni')->unique();
+            $table->string('password');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('address');
+            $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->timestamps();
         });
     }

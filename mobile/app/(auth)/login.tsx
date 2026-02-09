@@ -17,7 +17,9 @@ export default function Login() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://192.168.1.20:8000/api/login", {
+      const BACKEND_URL = "http://192.168.1.20:8000";
+
+      const response = await fetch(`${BACKEND_URL}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,9 +44,7 @@ export default function Login() {
       if (data.success === true) {
         console.log("Login exitoso:", data.user);
         
-        // Aquí podrías guardar los datos del usuario si quieres
-        // Por ejemplo, usando AsyncStorage
-        
+         setLoading(false);
         // Redirigir al dashboard
         router.replace("/dashboard");
       } else {
@@ -55,6 +55,9 @@ export default function Login() {
     catch (err) {
       console.error("Error de conexión:", err);
       setError("Error de conexión con el servidor");
+    }
+    finally {
+      setLoading(false); // Siempre se ejecuta
     }
   };
 
