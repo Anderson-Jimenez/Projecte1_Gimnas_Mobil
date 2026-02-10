@@ -3,7 +3,7 @@ import { Text, View, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Styles from "../styles/headerFooter";
 
-export default function Footer() {
+export default function Header() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export default function Footer() {
         const token = await AsyncStorage.getItem("token");
         if (!token) return;
 
-        const BACKEND_URL = "http://192.168.1.20:8000";
+        const BACKEND_URL = "http://192.168.12.23:8000";
 
         const response = await fetch(`${BACKEND_URL}/api/user`, {
           method: "GET",

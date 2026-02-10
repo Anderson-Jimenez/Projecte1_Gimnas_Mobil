@@ -45,7 +45,7 @@ export default function Timetable() {
     /*-----------*/
 
     useEffect(() => {
-        fetch("http://192.168.1.20:8000/api/allClasses")
+        fetch("http://192.168.12.23:8000/api/allClasses")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Error en la resposta de la API');
@@ -87,7 +87,7 @@ export default function Timetable() {
         
         // 2. Filtre per instructor
         const coincideixInstructor = instructorSeleccionat 
-            ? clase.fk_id_instructor == instructorSeleccionat 
+            ? clase.instructor_id == instructorSeleccionat 
             : true;
 
         // 3. Filtre per nom de classe (NOU)
