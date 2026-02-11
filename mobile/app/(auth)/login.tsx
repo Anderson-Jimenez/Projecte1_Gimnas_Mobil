@@ -74,14 +74,6 @@ export default function Login() {
         <Text style={styles.subtitle}>Inicia sesión</Text>
         
         <View style={styles.card}>
-          {/* Mostrar error si existe */}
-          {error ? (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>{error}</Text>
-            </View>
-          ) : null}
-          
-          {/* Email Input */}
           <Text style={styles.inputLabel}>Email</Text>
           <View style={styles.inputContainer}>
             <TextInput
@@ -176,17 +168,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
-  },
-  errorContainer: {
-    backgroundColor: "#FEE2E2",
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 15,
-  },
-  errorText: {
-    color: "#DC2626",
-    textAlign: "center",
-    fontSize: 14,
   },
   inputLabel: {
     fontSize: 14,

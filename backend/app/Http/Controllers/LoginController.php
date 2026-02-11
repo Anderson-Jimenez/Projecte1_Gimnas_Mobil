@@ -40,4 +40,21 @@ class loginController extends Controller
             ]
         ],200);
     }
+    public function logout(Request $request){
+        try {
+            //eliminar el token del usuario actual para no tener problemas en el login denuevo.
+            $request->user()->currentAccessToken()->delete();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Sesión cerrada correctamente'
+            ], 200);
+        } 
+        catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al cerrar sesión'
+            ], 500);
+        }
+    }
 }

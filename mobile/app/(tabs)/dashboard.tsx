@@ -1,17 +1,26 @@
 import React from 'react';
-import { Text, View, ScrollView, Image, TouchableOpacity, SafeAreaView, Pressable } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; // Si uses Expo, si no, react-native-vector-icons
+import { Text, View, ScrollView, Image, TouchableOpacity, SafeAreaView, Pressable, ActivityIndicator } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import Styles from "../../styles/dashboardStyles";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function GymDashboard() {
-  
+  const { isLoading, logout } = useAuth();
+
+  if (isLoading) {
+    return (
+      <SafeAreaView style={[Styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color="#ff6b6b" />
+        <Text style={{ marginTop: 10, color: '#666' }}>Cargando...</Text>
+      </SafeAreaView>
+    );
+  }
   return (
     <SafeAreaView style={Styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-
         <Header/>
 
         {/* BUTTON: VEURE RESERVES */}
@@ -27,7 +36,6 @@ export default function GymDashboard() {
           <Text style={Styles.sectionTitle}>La Teva Activitat</Text>
         </View>
         <View style={Styles.chartPlaceholder}>
-          {/* Aquí aniria un component com 'react-native-wagmi-charts' o 'react-native-chart-kit' */}
           <Text style={{ color: '#999' }}>Espai per al gràfic de barres</Text>
         </View>
 

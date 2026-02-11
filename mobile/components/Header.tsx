@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, ScrollView, Image, TouchableOpacity, SafeAreaView, Pressable, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Styles from "../styles/headerFooter";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useAuth } from "../hooks/useAuth";
 
 export default function Footer() {
   const [user, setUser] = useState(null);
-
+  const { logout } = useAuth();
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -39,14 +41,17 @@ export default function Footer() {
 
   return (
     <View style={Styles.header}>
-      <View>
-        <Text style={Styles.welcomeText}>Benvingut de nou,</Text>
-        <Text style={Styles.userName}>{user ? user.name : '...'} {user ? user.surnames : '...'}</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
+        <View>
+          <Text style={Styles.welcomeText}>Benvingut de nou,</Text>
+          <Text style={Styles.userName}>{user ? user.name : '...'} {user ? user.surnames : '...'}</Text>
+        </View>
       </View>
-      <Image
-        source={{ uri: 'https://via.placeholder.com/50' }} // Substitueix per la imatge real
-        style={Styles.profilePic}
-      />
+
+      
+        <TouchableOpacity onPress={logout} style={{ padding: 10 }}>
+          <MaterialCommunityIcons name="logout" size={30} color="#ff6b6b" />
+        </TouchableOpacity>
     </View>
   );
 };

@@ -19,7 +19,7 @@ use App\Http\Controllers\LoginController;
 Route::post('/login', [LoginController::class, 'login']);
 
 // Obtener todas las clases (público)
-Route::get('/allClasses', [ClassController::class, 'index']);
+
 
 /*
 --------------------------------------------------------------------------
@@ -27,9 +27,10 @@ Rutas protegidas (requieren token de usuario)
 --------------------------------------------------------------------------
 */
 Route::middleware('auth:sanctum')->group(function () {
-
+    Route::get('/dashboard', [DashboardController::class, 'index']);
     // Info del usuario logueado
     Route::get('/user', function (Request $request) {
+        
         return response()->json([
             'user' => [
                 'id' => $request->user()->id,
@@ -39,8 +40,16 @@ Route::middleware('auth:sanctum')->group(function () {
             ]
         ]);
     });
-
-    // Rutas de usuarios protegidas
-    Route::get('/users', [UserController::class, 'index']);
-    Route::get('/users/{id}', [UserController::class, 'show']); 
+    //Route::post('/logout', [loginController::class, 'logout']);
+    
+    //Route::get('/reservations', [ReservationController::class, 'index']);
+    //Route::get('/timetable', [TimetableController::class, 'index']);
+    Route::get('/allClasses', [ClassController::class, 'index']);
+});
+Route::middleware('auth:sanctum')->post('/logout', function () {
+    auth()->user()->currentAccessToken()->delete();
+    return response()->json(['success' => true]);
+});
+Route::middleware('auth:sanctum')->get('/verify-token', function () {
+    return response()->json(['success' => true]);
 });
