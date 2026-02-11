@@ -12,7 +12,7 @@ export default function Header() {
         const token = await AsyncStorage.getItem("token");
         if (!token) return;
 
-        const BACKEND_URL = "http://192.168.12.23:8000";
+        const BACKEND_URL = "http://192.168.1.20:8000";
 
         const response = await fetch(`${BACKEND_URL}/api/user`, {
           method: "GET",

@@ -22,7 +22,6 @@ export default function Profile() {
             source={{ uri: 'https://i.pravatar.cc/300' }}
             style={styles.avatar}
             />
-            <View style={styles.statusDot} />
         </View>
 
         {/* Nombre */}
