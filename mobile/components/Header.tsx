@@ -5,7 +5,7 @@ import Styles from "../styles/headerFooter";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from "../hooks/useAuth";
 
-export default function Footer() {
+export default function Header() {
   const [user, setUser] = useState(null);
   const { logout } = useAuth();
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function Footer() {
         const token = await AsyncStorage.getItem("token");
         if (!token) return;
 
-        const BACKEND_URL = "http://192.168.1.20:8000";
+        const BACKEND_URL = "http://192.168.12.23:8000";
 
         const response = await fetch(`${BACKEND_URL}/api/user`, {
           method: "GET",
