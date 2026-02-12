@@ -49,6 +49,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/myReservations', [ReservationController::class, 'myReservations']); // Para vista Reservations (completo)
     Route::delete('/reserva/{id}', [ReservationController::class, 'cancel']);
 
+    //QR generador
+    Route::get('/reservation/{id}/qr', [ReservationController::class, 'generateQR']);
+    Route::post('/scan-qr', [ReservationController::class, 'scanQR']);
+    Route::get('/reservation/{id}/status', [ReservationController::class, 'checkReservationStatus']);
 });
 Route::middleware('auth:sanctum')->post('/logout', function () {
     auth()->user()->currentAccessToken()->delete();

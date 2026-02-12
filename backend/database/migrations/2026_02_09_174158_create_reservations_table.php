@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['ACTIU', 'DESACTIVAT','CANCEL·LADA'])->default('ACTIU');
+            $table->enum('status', ['ACTIU', 'DESACTIVAT','CANCEL·LADA','UTILITZAT'])->default('ACTIU');
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
             $table->timestamps();

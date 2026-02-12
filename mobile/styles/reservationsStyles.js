@@ -104,7 +104,47 @@ export default StyleSheet.create({
         fontWeight: "500",
     },
 
+    // ✅ ESTILOS NUEVOS - AÑADE ESTOS
+    actionsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 16,
+        gap: 12,
+    },
+
+    qrBtn: {
+        flex: 1,
+        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+        paddingVertical: 14,
+        paddingHorizontal: 20,
+        borderRadius: 14,
+        alignItems: 'center',
+        borderWidth: 1.5,
+        borderColor: '#3b82f6',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 8,
+    },
+
+    qrText: {
+        color: '#3b82f6',
+        fontSize: 16,
+        fontWeight: '700',
+        letterSpacing: 0.5,
+    },
+
+    qrBtnDisabled: {
+        backgroundColor: 'rgba(156, 163, 175, 0.1)',
+        borderColor: '#4B5563',
+    },
+
+    qrTextDisabled: {
+        color: '#9CA3AF',
+    },
+
     cancelBtn: {
+        flex: 1,
         backgroundColor: "rgba(239, 68, 68, 0.15)",
         paddingVertical: 14,
         paddingHorizontal: 20,
@@ -122,6 +162,22 @@ export default StyleSheet.create({
         fontSize: 16,
         fontWeight: "700",
         letterSpacing: 0.5,
+    },
+
+    expiredBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 16,
+        paddingTop: 16,
+        borderTopWidth: 1,
+        borderTopColor: '#374151',
+        gap: 8,
+    },
+
+    expiredText: {
+        color: '#F59E0B',
+        fontSize: 14,
+        fontWeight: '600',
     },
 
     emptyContainer: {
@@ -164,5 +220,78 @@ export default StyleSheet.create({
         fontSize: 16,
         color: "#6B7280",
         fontWeight: "500",
+    },
+    cardUsed: {
+        opacity: 0.75,
+        backgroundColor: '#111827',
+    },
+    actionsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 16,
+        gap: 12,
+    },
+
+    qrBtn: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        borderRadius: 14,
+        borderWidth: 1.5,
+        borderColor: '#3b82f6',
+        gap: 8,
+    },
+
+    qrText: {
+        color: '#3b82f6',
+        fontSize: 16,
+        fontWeight: '700',
+        letterSpacing: 0.5,
+    },
+
+    cancelBtn: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(239, 68, 68, 0.15)',
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        borderRadius: 14,
+        borderWidth: 1.5,
+        borderColor: '#ef4444',
+        gap: 8,
+    },
+
+    cancelText: {
+        color: '#ef4444',
+        fontSize: 16,
+        fontWeight: '700',
+        letterSpacing: 0.5,
+    },
+
+    usedBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 16,
+        paddingTop: 16,
+        borderTopWidth: 1,
+        borderTopColor: '#374151',
+        gap: 8,
+    },
+
+    usedText: {
+        color: '#10B981',
+        fontSize: 14,
+        fontWeight: '600',
+    },
+
+    emptyIcon: {
+        marginBottom: 16,
     },
 });
