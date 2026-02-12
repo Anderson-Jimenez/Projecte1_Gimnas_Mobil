@@ -10,11 +10,18 @@ return new class extends Migration
     {
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
+
             $table->string('name');
-            $table->string('date', 20);
-            $table->string('start_time', 20);
-            $table->string('end_time', 20);
-            $table->integer('capacity');
+
+            $table->date('date'); //tipo date para saber dia de la semana y calcular que clase hay cada dia.
+
+            // en vez de texto, poner la hora real para manejar reservas 24h antes
+            $table->time('start_time');
+            $table->time('end_time');
+
+            $table->unsignedInteger('capacity');
+
+            // fk al instructor que da la clase.
             $table->foreignId('instructor_id')->nullable()->constrained('instructors')->cascadeOnDelete();
             $table->timestamps();
         });
@@ -25,3 +32,4 @@ return new class extends Migration
         Schema::dropIfExists('classes');
     }
 };
+

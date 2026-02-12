@@ -120,7 +120,56 @@ export default StyleSheet.create({
         borderWidth: 0,
         borderBottomWidth: 1,
     },
-
-
-    
+    cardFull: {
+        backgroundColor: '#fff1f0',
+        borderWidth: 2,
+        borderColor: '#ff4d4f',
+        shadowColor: '#ff4d4f',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    timeBadgeFull: {
+        backgroundColor: '#ff4d4f',
+        borderColor: '#ff4d4f',
+    },
+    timeTextFull: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    fullBtn: {
+        backgroundColor: '#ff4d4f',
+        paddingVertical: 14,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 15,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        shadowColor: '#ff4d4f',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        elevation: 4,
+    },
+    fullText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+        letterSpacing: 1,
+    },
+    emptyView: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 60,
+        paddingHorizontal: 20,
+    },
+    emptyText: {
+        fontSize: 18,
+        color: '#64748b',
+        marginTop: 15,
+        textAlign: 'center',
+        fontWeight: '500',
+    },
 });

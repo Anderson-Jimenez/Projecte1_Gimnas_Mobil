@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,7 @@ use App\Http\Controllers\LoginController;
 Route::post('/login', [LoginController::class, 'login']);
 
 // Obtener todas las clases (público)
-
+Route::get('/allClasses', [ClassController::class, 'index']);
 
 /*
 --------------------------------------------------------------------------
@@ -39,12 +41,14 @@ Route::middleware('auth:sanctum')->group(function () {
                 'email' => $request->user()->email,
             ]
         ]);
-    });
-    //Route::post('/logout', [loginController::class, 'logout']);
-    
-    //Route::get('/reservations', [ReservationController::class, 'index']);
-    //Route::get('/timetable', [TimetableController::class, 'index']);
-    Route::get('/allClasses', [ClassController::class, 'index']);
+    });    
+
+
+    Route::post('/reserva', [ReservationController::class, 'store']);
+    Route::get('/reserves', [ReservationController::class, 'reserves']); // Para Timetable (solo IDs)
+    Route::get('/myReservations', [ReservationController::class, 'myReservations']); // Para vista Reservations (completo)
+    Route::delete('/reserva/{id}', [ReservationController::class, 'cancel']);
+
 });
 Route::middleware('auth:sanctum')->post('/logout', function () {
     auth()->user()->currentAccessToken()->delete();

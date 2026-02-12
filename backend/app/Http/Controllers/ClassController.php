@@ -15,8 +15,16 @@ class ClassController extends Controller
     public function index()
     {
         return response()->json([
-            'classes' => Classes::with('instructor')->withCount('reservations')->get(),
+            'classes' => Classes::with('instructor')
+                ->withCount([
+                    'reservations as reservations_count' => function ($query) {
+                        $query->where('status', 'ACTIU');
+                    }
+                ])
+                ->get(),
+
             'instructors' => Instructor::all(),
+
             'classNames' => Classes::distinct()->pluck('name'),
         ]);
     }
