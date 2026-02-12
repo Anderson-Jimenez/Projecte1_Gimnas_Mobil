@@ -1,21 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, SafeAreaView, Pressable, ActivityIndicator } from 'react-native';
+import { Text, View, ScrollView, SafeAreaView, Pressable, ActivityIndicator, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { router } from "expo-router";
+import { useFocusEffect } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "../../styles/reservationsStyles";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomAlert from "../../styles/customAlert";
+import QRModal from "../../components/QRModal";
 
 export default function Reservations() {
     const [reservations, setReservations] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    
+    // Estados para CustomAlert
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [alertTitulo, setAlertTitulo] = useState('');
+    const [alertMensaje, setAlertMensaje] = useState('');
+    const [alertTipo, setAlertTipo] = useState<'success' | 'error' | 'warning'>('success');
+    
+    // Estados para QRModal
+    const [qrModalVisible, setQrModalVisible] = useState(false);
+    const [qrData, setQrData] = useState<string | null>(null);
+    const [qrClassInfo, setQrClassInfo] = useState({ name: '', time: '' });
+    const [scanSuccess, setScanSuccess] = useState(false);
 
+    const API_URL = 'http://192.168.1.20:8000/api';
+
+    // CARGAR RESERVAS - SOLO ACTIVAS
     const fetchMyReservations = async () => {
         try {
             const token = await AsyncStorage.getItem("token");
             if (token) {
-                const response = await fetch('http://192.168.1.20:8000/api/myReservations', {
+                const response = await fetch(`${API_URL}/myReservations`, {
                     headers: {
                         "Authorization": `Bearer ${token}`,
                     },
@@ -25,18 +42,19 @@ export default function Reservations() {
                     setReservations(data.reservations);
                 }
             }
-            setLoading(false);
         } catch (error) {
             console.log('Error:', error);
+        } finally {
             setLoading(false);
         }
     };
 
+    // ✅ CANCELAR RESERVA - LÓGICA ORIGINAL (SIN ALERT)
     const cancelReservation = async (reservationId: number) => {
         try {
             const token = await AsyncStorage.getItem("token");
             if (token) {
-                const response = await fetch(`http://192.168.1.20:8000/api/reserva/${reservationId}`, {
+                const response = await fetch(`${API_URL}/reserva/${reservationId}`, {
                     method: 'DELETE',
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -52,9 +70,101 @@ export default function Reservations() {
         }
     };
 
+    // GENERAR QR
+    const generateQR = async (reservationId: number, className: string, classTime: string) => {
+        try {
+            const token = await AsyncStorage.getItem("token");
+            if (token) {
+                const response = await fetch(`${API_URL}/reservation/${reservationId}/qr`, {
+                    headers: { "Authorization": `Bearer ${token}` },
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    setQrData(data.qr_data);
+                    setQrClassInfo({ 
+                        name: className, 
+                        time: classTime 
+                    });
+                    setScanSuccess(false);
+                    setQrModalVisible(true);
+                } else {
+                    setAlertTitulo('QR no disponible');
+                    setAlertMensaje(data.message);
+                    setAlertTipo('error');
+                    setAlertVisible(true);
+                }
+            }
+        } catch (error) {
+            console.log('Error generando QR:', error);
+            setAlertTitulo('Error');
+            setAlertMensaje('No s\'ha pogut generar el QR');
+            setAlertTipo('error');
+            setAlertVisible(true);
+        }
+    };
+
+    // SIMULAR ESCÀNER QR
+    const simulateScan = async () => {
+        if (!qrData) return;
+        
+        try {
+            const token = await AsyncStorage.getItem("token");
+            if (token) {
+                const response = await fetch(`${API_URL}/scan-qr`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ qr_data: qrData })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    setScanSuccess(true);
+                    setAlertTitulo('✅ QR registrat');
+                    setAlertMensaje('QR registrat correctament');
+                    setAlertTipo('success');
+                    setAlertVisible(true);
+                    
+                    setTimeout(() => {
+                        setQrModalVisible(false);
+                        setScanSuccess(false);
+                        fetchMyReservations();
+                    }, 1500);
+                } else {
+                    setAlertTitulo('❌ Error');
+                    setAlertMensaje(data.message);
+                    setAlertTipo('error');
+                    setAlertVisible(true);
+                }
+            }
+        } catch (error) {
+            console.log('Error escanejant QR:', error);
+            setAlertTitulo('❌ Error');
+            setAlertMensaje('No s\'ha pogut registrar el QR');
+            setAlertTipo('error');
+            setAlertVisible(true);
+        }
+    };
+
     useEffect(() => {
         fetchMyReservations();
+        
+        const interval = setInterval(() => {
+            fetchMyReservations();
+        }, 5000);
+        
+        return () => clearInterval(interval);
     }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchMyReservations();
+        }, [])
+    );
 
     if (loading) {
         return (
@@ -75,7 +185,6 @@ export default function Reservations() {
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Header/>
-
                 <View style={styles.wrapper}>
                     <Text style={styles.sectionTitle}>Les meves classes</Text>
 
@@ -147,18 +256,54 @@ export default function Reservations() {
                                     </View>
                                 </View>
 
-                                <Pressable 
-                                    style={styles.cancelBtn}
-                                    onPress={() => cancelReservation(res.id)}
-                                >
-                                    <MaterialCommunityIcons name="close-circle" size={18} color="#ef4444" />
-                                    <Text style={styles.cancelText}>Cancel·lar reserva</Text>
-                                </Pressable>
+                                <View style={styles.actionsRow}>
+                                    <Pressable 
+                                        style={styles.qrBtn}
+                                        onPress={() => generateQR(
+                                            res.id,
+                                            res.class.name,
+                                            `${new Date(res.class.date).toLocaleDateString('ca-ES')} - ${res.class.start_time}`
+                                        )}
+                                    >
+                                        <MaterialCommunityIcons name="qrcode-scan" size={18} color="#3b82f6" />
+                                        <Text style={styles.qrText}>Veure QR</Text>
+                                    </Pressable>
+
+                                    <Pressable 
+                                        style={styles.cancelBtn}
+                                        onPress={() => cancelReservation(res.id)}
+                                    >
+                                        <MaterialCommunityIcons name="close-circle" size={18} color="#ef4444" />
+                                        <Text style={styles.cancelText}>Cancel·lar reserva</Text>
+                                    </Pressable>
+                                </View>
                             </View>
                         ))
                     )}
                 </View>
             </ScrollView>
+
+            <CustomAlert
+                visible={alertVisible}
+                titulo={alertTitulo}
+                mensaje={alertMensaje}
+                tipo={alertTipo}
+                onClose={() => setAlertVisible(false)}
+            />
+
+            <QRModal
+                visible={qrModalVisible}
+                onClose={() => {
+                    setQrModalVisible(false);
+                    setScanSuccess(false);
+                }}
+                qrData={qrData}
+                className={qrClassInfo.name}
+                classTime={qrClassInfo.time}
+                onScanSuccess={scanSuccess}
+                onSimulateScan={simulateScan}
+            />
+            
             <Footer/>
         </SafeAreaView>
     );
