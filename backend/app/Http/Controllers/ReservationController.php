@@ -18,7 +18,7 @@ class ReservationController extends Controller
 
             $class = Classes::findOrFail($request->class_id);
             $user_id = Auth::id();
-
+    
             $currentReservations = Reservation::where('class_id', $class->id)
                 ->where('status', 'ACTIU')
                 ->count();

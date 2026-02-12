@@ -1,19 +1,24 @@
 import { useState } from "react";
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
+import styles from "../../styles/login";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const login = async () => {
     setError("");
     if (!email || !password) {
-      setError("Completa todos los campos");
+      setError("Completa tots els camps");
+      setLoading(false);
+      return;
     }
 
     setLoading(true);
@@ -33,34 +38,28 @@ export default function Login() {
       });
 
       const data = await response.json();
-      console.log("Respuesta del servidor:", data); // Para debug
+      console.log("Resposta del servidor:", data);
 
       if (!response.ok) {
-        // Si hay error (401, 422, etc.)
-        setError(data.message || "Error en el servidor");
+        setError(data.message || "Error al servidor");
         setLoading(false);
+        return;
       }
 
-      // Verificar si el login fue exitoso
       if (data.success === true) {
-        console.log("Login exitoso:", data.user);
-        //guarda token
+        console.log("Login exitós:", data.user);
         await AsyncStorage.setItem("token", data.token);
-        setLoading(false);
-
-        // Redireccion al dashboard
         router.replace("/dashboard");
       } else {
-        setError(data.message || "Credenciales incorrectas");
+        setError(data.message || "Credencials incorrectes");
       }
-
     } 
     catch (err) {
-      console.error("Error de conexión:", err);
-      setError("Error de conexión con el servidor");
+      console.error("Error de connexió:", err);
+      setError("Error de connexió amb el servidor");
     }
     finally {
-      setLoading(false); // Siempre se ejecuta
+      setLoading(false);
     }
   };
 
@@ -70,15 +69,24 @@ export default function Login() {
       style={styles.container}
     >
       <View style={styles.content}>
-        <Text style={styles.welcomeText}>¡Bienvenido de nuevo!</Text>
-        <Text style={styles.subtitle}>Inicia sesión</Text>
-        
+
+        <View style={styles.logoContainer}>
+          <View style={styles.logoBackground}>
+            <Ionicons name="barbell" size={50} color="#FE5D5D" />
+          </View>
+          <Text style={styles.gymName}>GYM PRO</Text>
+        </View>
+
         <View style={styles.card}>
-          <Text style={styles.inputLabel}>Email</Text>
+          <Text style={styles.welcomeText}>Benvingut de nou!</Text>
+          <Text style={styles.subtitle}>Inicia sessió per continuar</Text>
+          
+          <Text style={styles.inputLabel}>Correu electrònic</Text>
           <View style={styles.inputContainer}>
+            <Ionicons name="mail-outline" size={20} color="#9CA3AF" style={styles.inputIcon} />
             <TextInput
               style={styles.input}
-              placeholder="Introduce tu correo electrónico"
+              placeholder="Introdueix el teu correu"
               placeholderTextColor="#9CA3AF"
               onChangeText={setEmail}
               value={email}
@@ -88,21 +96,37 @@ export default function Login() {
             />
           </View>
           
-          {/* Password Input */}
-          <Text style={styles.inputLabel}>Contraseña</Text>
+          {/* Password Input amb icona */}
+          <Text style={styles.inputLabel}>Contrasenya</Text>
           <View style={styles.inputContainer}>
+            <Ionicons name="lock-closed-outline" size={20} color="#9CA3AF" style={styles.inputIcon} />
             <TextInput
               style={styles.input}
-              placeholder="Introduce tu contraseña"
+              placeholder="Introdueix la teva contrasenya"
               placeholderTextColor="#9CA3AF"
-              secureTextEntry={true}
+              secureTextEntry={!showPassword}
               onChangeText={setPassword}
               value={password}
               editable={!loading}
             />
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+              <Ionicons 
+                name={showPassword ? "eye-outline" : "eye-off-outline"} 
+                size={20} 
+                color="#9CA3AF" 
+              />
+            </TouchableOpacity>
           </View>
+
+          {/* Missatge d'error */}
+          {error ? (
+            <View style={styles.errorContainer}>
+              <Ionicons name="alert-circle-outline" size={18} color="#FE5D5D" />
+              <Text style={styles.errorText}>{error}</Text>
+            </View>
+          ) : null}
           
-          {/* Sign In Button */}
+          {/* Botó d'inici de sessió */}
           <TouchableOpacity 
             style={[
               styles.signInButton, 
@@ -112,11 +136,12 @@ export default function Login() {
             disabled={loading}
           >
             <Text style={styles.signInText}>
-              {loading ? "Verificando..." : "Iniciar Sesión"}
+              {loading ? "Verificant..." : "Iniciar sessió"}
             </Text>
+            {!loading && <Ionicons name="arrow-forward" size={20} color="white" style={styles.buttonIcon} />}
           </TouchableOpacity>
           
-          {/* Botón de prueba con datos predefinidos */}
+          {/* Botó de prova */}
           <TouchableOpacity 
             style={styles.testButton}
             onPress={() => {
@@ -124,93 +149,15 @@ export default function Login() {
               setPassword("1234");
             }}
           >
-            <Text style={styles.testText}>Rellenar datos de prueba</Text>
+            <Ionicons name="person-circle-outline" size={16} color="#6B7280" />
+            <Text style={styles.testText}> Omplir dades de prova</Text>
           </TouchableOpacity>
-          
         </View>
+
+        {/* Elements decoratius */}
+        <View style={styles.decorativeCircle1} />
+        <View style={styles.decorativeCircle2} />
       </View>
     </LinearGradient>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
-  welcomeText: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "white",
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "rgba(255, 255, 255, 0.9)",
-    marginBottom: 40,
-  },
-  card: {
-    backgroundColor: "white",
-    padding: 25,
-    borderRadius: 16,
-    width: "100%",
-    maxWidth: 400,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#374151",
-    marginBottom: 8,
-  },
-  inputContainer: {
-    backgroundColor: "#F9FAFB",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginBottom: 16,
-  },
-  input: {
-    fontSize: 14,
-    color: "#111827",
-  },
-  signInButton: {
-    backgroundColor: "#FE5D5D",
-    borderRadius: 8,
-    paddingVertical: 14,
-    alignItems: "center",
-    marginTop: 10,
-    marginBottom: 16,
-  },
-  disabledButton: {
-    backgroundColor: "#9CA3AF",
-  },
-  signInText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  testButton: {
-    padding: 10,
-    alignItems: "center",
-  },
-  testText: {
-    color: "#6B7280",
-    fontSize: 14,
-    fontStyle: "italic",
-  },
-});
