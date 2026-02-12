@@ -14,7 +14,7 @@ class Reservation extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
     
-    public function class(){
+    public function gymClass(){
         return $this->belongsTo(Classes::class, 'class_id');
     }
 }

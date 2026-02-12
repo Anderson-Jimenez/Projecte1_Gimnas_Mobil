@@ -45,7 +45,7 @@ export default function Timetable() {
     /*-----------*/
 
     useEffect(() => {
-        fetch("http://192.168.12.23:8000/api/allClasses")
+        fetch("http://192.168.56.1:8000/api/allClasses")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Error en la resposta de la API');
@@ -102,7 +102,6 @@ export default function Timetable() {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-
                 <Header />
                 <View style={styles.dayView}>
                     <MaterialCommunityIcons name="arrow-left" size={32} color="#000" onPress={anarEnrere} />

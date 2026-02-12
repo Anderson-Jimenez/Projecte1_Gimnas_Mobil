@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function useAuth() {
   const [isLoading, setIsLoading] = useState(true);
-  const BACKEND_URL = "http://192.168.1.20:8000"; //tu ip de la maquina
+  const BACKEND_URL = "http://192.168.56.1:8000"; //tu ip de la maquina
 
   useEffect(() => {
     verificarAuth();
